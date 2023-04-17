@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="default_image_width">320px</dimen>
+    <dimen name="default_image_height">250px</dimen>
+    <dimen name="image_view_max_height">300dp</dimen>
+</resources>
