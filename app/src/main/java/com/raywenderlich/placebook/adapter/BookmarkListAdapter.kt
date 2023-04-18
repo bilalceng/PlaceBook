@@ -46,7 +46,9 @@ import com.raywenderlich.placebook.viewmodel.MapsViewModel
                 Log.d("do not give up", "i am at onBindViewHolder $position")
                 holder.binding.root.tag = bookmarkViewData
                 holder.binding.bookmarkData = bookmarkViewData
-                holder.binding.bookmarkIcon.setImageResource(R.drawable.girl)
+                bookmarkViewData.categoryResourceId?.let {
+                    holder.binding.bookmarkIcon.setImageResource(it)
+                }
 
 
             }

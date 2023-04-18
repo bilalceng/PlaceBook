@@ -151,8 +151,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             .alpha(0.8f)
             .title(bookmark.phone)
             .snippet(bookmark.name)
-            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)
-            ).alpha(0.8f)
+            .icon(bookmark.categoryResourceId?.let {
+                BitmapDescriptorFactory.fromResource(it)
+            })
+            .alpha(0.8f)
         )
         marker?.tag  = bookmark
         bookmark.id?.let {
@@ -258,6 +260,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             Place.Field.PHOTO_METADATAS,
             Place.Field.ADDRESS,
             Place.Field.LAT_LNG,
+            Place.Field.TYPES
 
         )
 

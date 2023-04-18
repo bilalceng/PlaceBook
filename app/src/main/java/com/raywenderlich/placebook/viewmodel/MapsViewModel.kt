@@ -20,6 +20,20 @@ class MapsViewModel(application: Application):AndroidViewModel( application) {
 
     private val bookmarkRepo:BookmarkRepo = BookmarkRepo(getApplication())
 
+    private fun getPlaceCategory( places: Place): String{
+
+        var category = "Other"
+        val types  = places.types
+
+        types?.let {
+            if (types.size > 0){
+              category =  bookmarkRepo.placeTypeToCategory(types[0])
+
+            }
+        }
+        return category
+    }
+
     fun addBookmarkFromPlace(place: Place, image: Bitmap?) {
         val bookmark = bookmarkRepo.createBookmark()
 
@@ -29,6 +43,7 @@ class MapsViewModel(application: Application):AndroidViewModel( application) {
         bookmark.latitude = place.latLng?.latitude ?: 0.0
         bookmark.longitude = place.latLng?.longitude ?: 0.0
         bookmark.phone = place.phoneNumber?.toString() ?: ""
+        bookmark.category = getPlaceCategory(place)
 
         val newId = bookmarkRepo.addBookmark(bookmark)
         image?.let{
@@ -42,6 +57,7 @@ class MapsViewModel(application: Application):AndroidViewModel( application) {
         var location: LatLng = LatLng(0.0,0.0),
         var name:String = "",
         var phone:String = "",
+        var categoryResourceId: Int? = null
     ){
         fun getImage(context: Context): Bitmap?  {
             return id?.let {
@@ -53,8 +69,10 @@ class MapsViewModel(application: Application):AndroidViewModel( application) {
     private fun BookMarkToMarkerView(bookmark: Bookmark)
     = BookmarkMarkerView(bookmark.id,
         LatLng(bookmark.latitude,bookmark.longitude),
-    bookmark.name,
-    bookmark.phone)
+        bookmark.name,
+        bookmark.phone,
+        bookmarkRepo.getCategoryResourceId(bookmark.category)
+    )
 
     fun getBookmarksMarkerViews(): LiveData<List<BookmarkMarkerView>>?{
         if(bookmars == null){
