@@ -13,6 +13,7 @@
         android:layout_height="match_parent">
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appbar"
+            android:collapseColumns=""
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:theme="@style/AppTheme.AppBarOverlay">
@@ -23,6 +24,7 @@
                 android:layout_height="match_parent"
                 app:contentScrim= "?attr/colorPrimary"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed"
+                app:navigationIcon="@drawable/travell"
                 app:toolbarId="@+id/toolbar">
 
                 <androidx.appcompat.widget.Toolbar
@@ -42,7 +44,7 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content">
 
                 <ImageView
                     android:id="@+id/imageViewPlace"
@@ -68,6 +70,21 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/imageViewPlace" />
 
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/textViewCategoryLabel"
+                    style="@style/BookmarkLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="@string/category"
+                    app:layout_constraintBottom_toBottomOf="@+id/spinnerCategory"
+                    app:layout_constraintEnd_toStartOf="@+id/barrier1"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/spinnerCategory"
+                    app:layout_constraintVertical_bias="1.0" />
+
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/textViewNotes"
                     style="@style/BookmarkLabel"
@@ -77,7 +94,7 @@
                     android:text="@string/notes"
                     app:layout_constraintBaseline_toBaselineOf="@+id/editTextNotes"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textViewName"/>
+                    app:layout_constraintTop_toBottomOf="@+id/textViewCategoryLabel"/>
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/textViewPhone"
@@ -104,7 +121,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:barrierDirection="left"
-                    app:constraint_referenced_ids="editTextName,editTextNotes,editTextPhone, editTextAddress" />
+                    app:constraint_referenced_ids="editTextName,editTextNotes,editTextPhone, editTextAddress,spinnerCategory" />
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/editTextName"
@@ -118,17 +135,43 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/barrier1"
                     app:layout_constraintTop_toBottomOf="@+id/imageViewPlace"/>
+
+                <ImageView
+                    android:id="@+id/imageViewCategory"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/other"
+                    android:layout_marginStart="16dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/spinnerCategory"
+                    app:layout_constraintStart_toEndOf="@+id/barrier1"
+                    app:layout_constraintTop_toTopOf="@+id/spinnerCategory"
+                    />
+
+                <Spinner
+                    android:id="@+id/spinnerCategory"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight='1.4'
+                    android:layout_marginTop="16dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/imageViewCategory"
+                    app:layout_constraintTop_toBottomOf="@+id/editTextName"
+                    />
+
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/editTextNotes"
-                    android:text="@{DetailView.notes}"
                     style="@style/BookmarkEditText"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:hint="@string/enter_notes"
                     android:layout_marginStart="16dp"
+                    android:hint="@string/enter_notes"
+                    android:text="@{DetailView.notes}"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toEndOf="@+id/barrier1"
-                    app:layout_constraintTop_toBottomOf="@+id/editTextName"/>
+                    app:layout_constraintTop_toBottomOf="@+id/spinnerCategory" />
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/editTextPhone"

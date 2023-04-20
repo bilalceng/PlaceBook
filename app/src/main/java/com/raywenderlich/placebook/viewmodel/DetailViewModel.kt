@@ -24,7 +24,8 @@ class DetailViewModel(application: Application):AndroidViewModel(application) {
         var name:String ="",
         var phone:String ="",
         var address: String="",
-        var notes:String=""
+        var notes:String="",
+        var category: String = ""
     ){
         fun getImage(context: Context) = id?.let {
             ImageUtils.loadBitmapFromFile(context,Bookmark.generateImageFileName(it))
@@ -45,7 +46,8 @@ class DetailViewModel(application: Application):AndroidViewModel(application) {
             bookmark.name,
             bookmark.phone,
             bookmark.address,
-            bookmark.notes
+            bookmark.notes,
+            bookmark.category
         )
 
 
@@ -76,6 +78,7 @@ class DetailViewModel(application: Application):AndroidViewModel(application) {
                 bookmark.phone = detailView.phone
                 bookmark.address = detailView.address
                 bookmark.notes = detailView.notes
+                bookmark.category = detailView.category
             }
             return bookmark
         }
@@ -90,6 +93,12 @@ class DetailViewModel(application: Application):AndroidViewModel(application) {
             }
         }
 
+    fun getCategoryResourceId(category: String): Int?{
+        return bookmarkRepo.getCategoryResourceId(category)
+    }
 
+    fun getCategories():List<String>{
+        return bookmarkRepo.categories
+    }
     }
 

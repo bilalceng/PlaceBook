@@ -10,6 +10,9 @@ import android.provider.MediaStore
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.core.content.FileProvider
@@ -64,6 +67,7 @@ class DetailActivity : AppCompatActivity() , PhotoOptionDialogFragment.PhotoOpti
                 detailView = it
                 dataBinding.detailView = it
                 populateImageView()
+                populateCategoryList()
             }
         }
     }
@@ -126,6 +130,7 @@ private fun saveChanges(){
                 resolve.activityInfo.packageName
             }.forEach {
                 grantUriPermission(it,photoUri,Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
+                Log.d("sexychick",it)
             }
 
             startActivityForResult(captureIntent, REQUEST_CAPTURE_IMAGE)
@@ -218,6 +223,67 @@ private fun saveChanges(){
                 }
             }
         }
+    }
+    private fun populateCategoryList(){
+        val bookmarkview = detailView ?: return
+
+        val resourceId = detailViewModel.getCategoryResourceId(bookmarkview.category)
+
+        resourceId?.let {
+            dataBinding.imageViewCategory.setImageResource(it)
+        }
+
+        val categories = detailViewModel.getCategories()
+
+        val adapter = ArrayAdapter(this,android.R.layout.simple_spinner_item,categories)
+
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+
+        dataBinding.spinnerCategory.adapter = adapter
+
+        val placeCategory = bookmarkview.category
+
+        dataBinding.spinnerCategory.setSelection(adapter.getPosition(placeCategory))
+
+        dataBinding.spinnerCategory.post {
+          dataBinding.spinnerCategory.onItemSelectedListener = object: AdapterView.OnItemClickListener,
+              AdapterView.OnItemSelectedListener {
+              override fun onItemSelected(
+                  parent: AdapterView<*>?,
+                  view: View?,
+                  position: Int,
+                  id: Long
+              ) {
+                  val category = parent?.getItemAtPosition(position) as String
+                    detailView?.let {
+                        it.category = category
+                    }
+
+                  val resourceId = detailViewModel.getCategoryResourceId(category)
+
+
+
+                  resourceId?.let {
+                      dataBinding.imageViewCategory.setImageResource(it)
+                  }
+              }
+
+              override fun onNothingSelected(parent: AdapterView<*>?) {
+                  TODO("Not yet implemented")
+              }
+
+              override fun onItemClick(
+                  parent: AdapterView<*>?,
+                  view: View?,
+                  position: Int,
+                  id: Long
+              ) {
+
+              }
+
+          }
+        }
+
     }
 
 

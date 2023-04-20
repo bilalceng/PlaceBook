@@ -12,4 +12,5 @@
     <string name="save">save</string>
     <string name="open_drawer">Open Drawer</string>
     <string name="close_drawer">Close Drawer</string>
+    <string name="category">Category</string>
 </resources>

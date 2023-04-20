@@ -12,6 +12,8 @@ class BookmarkRepo(context: Context) {
     val db:PlaceBookDatabase = PlaceBookDatabase.getInstance(context)
     val bookmarkDao = db.BookmarkDao()
     val categoryMap: HashMap<Place.Type, String> = buildCategoryMap()
+    val categories: List<String>
+    get() = ArrayList(allCategories.keys)
     private var allCategories: HashMap<String, Int> = buildCategories()
 
     private fun buildCategoryMap() : HashMap<Place.Type, String> {
@@ -62,6 +64,7 @@ class BookmarkRepo(context: Context) {
     }
 
     fun getCategoryResourceId(category: String) = if (allCategories[category] != null) allCategories[category] else null
+
     fun addBookmark(bookMark:Bookmark): Long?{
       val newId =   bookmarkDao.insertBookmark(bookMark)
         bookMark.id = newId
