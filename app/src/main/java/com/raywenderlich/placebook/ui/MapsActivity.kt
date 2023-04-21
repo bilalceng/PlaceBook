@@ -2,6 +2,7 @@ package com.raywenderlich.placebook.ui
 
 
 
+import android.app.Activity
 import android.content.Intent
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.net.PlacesClient
@@ -11,11 +12,17 @@ import android.location.Location
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.graphics.drawable.DrawerArrowDrawable
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import androidx.core.view.GravityCompat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException
+import com.google.android.gms.common.GooglePlayServicesRepairableException
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -28,8 +35,11 @@ import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.maps.model.PointOfInterest
 import com.google.android.libraries.places.api.model.Place
+import com.google.android.libraries.places.api.model.RectangularBounds
 import com.google.android.libraries.places.api.net.FetchPhotoRequest
 import com.google.android.libraries.places.api.net.FetchPlaceRequest
+import com.google.android.libraries.places.widget.Autocomplete
+import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
 import com.raywenderlich.placebook.R
 import com.raywenderlich.placebook.adapter.BookMarkInfoWindowAdaptor
 import com.raywenderlich.placebook.adapter.BookmarkListAdapter
@@ -77,7 +87,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private fun setToolbar(){
         setSupportActionBar(databinding.mainMapView.toolbar)
-        val toggle = ActionBarDrawerToggle(this, databinding.drawerLayout,
+        var toggle = ActionBarDrawerToggle(this, databinding.drawerLayout,
             databinding.mainMapView.toolbar, R.string.open_drawer, R.string.close_drawer)
 
         toggle.syncState()
@@ -195,6 +205,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         mMap.setOnInfoWindowClickListener {
             handleInfoWindowClick(it)
         }
+        databinding.mainMapView.fab.setOnClickListener{
+        searchAtCurrentLocation()
+    }
     }
 
     private fun displayPoi(pointOfInterest: PointOfInterest){
@@ -361,9 +374,60 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         }
     }
 
+    private fun searchAtCurrentLocation() {
+
+        val placeFields = listOf(
+            Place.Field.ID,
+            Place.Field.NAME,
+            Place.Field.PHONE_NUMBER,
+            Place.Field.PHOTO_METADATAS,
+            Place.Field.LAT_LNG,
+            Place.Field.ADDRESS,
+            Place.Field.TYPES
+        )
+
+        val bounds = RectangularBounds.newInstance(mMap.projection.visibleRegion.latLngBounds)
+
+        try {
+
+            val intent = Autocomplete.IntentBuilder(AutocompleteActivityMode.OVERLAY, placeFields)
+                .setLocationBias(bounds)
+                .build(this)
+
+            startActivityForResult(intent, AUTO_COMPLETE_REQUEST_CODE)
+
+        } catch (e: GooglePlayServicesRepairableException) {
+            Toast.makeText(this, "Problems Searching", Toast.LENGTH_LONG).show()
+
+        } catch (e: GooglePlayServicesNotAvailableException) {
+            Toast.makeText(this, "Problems Searching. Google Play Not available", Toast.LENGTH_LONG).show()
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if(requestCode == AUTO_COMPLETE_REQUEST_CODE){
+            if(resultCode == Activity.RESULT_OK && data != null){
+
+                val place = Autocomplete.getPlaceFromIntent(data)
+
+                val location = Location("")
+                location.latitude = place.latLng?.latitude ?: 0.0
+                location.longitude = place.latLng?.longitude ?: 0.0
+
+                updateMaplocation(location)
+                displayPoiGetPhotoStep(place)
+
+            }
+
+        }
+    }
+
     companion object{
         const val EXTRA_BOOKMARK_ID = "com.raywenderlich.placebook.EXTRA_BOOKMARK_ID"
         const val REQUEST_LOCATION = 1
+        private const val AUTO_COMPLETE_REQUEST_CODE = 2
         const val TAG = "thisActivity"
     }
 

@@ -47,6 +47,7 @@
                 android:layout_height="wrap_content">
 
                 <ImageView
+                    android:background="#146BC6"
                     android:id="@+id/imageViewPlace"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -59,39 +60,39 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
+
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/textViewName"
                     style="@style/BookmarkLabel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="60dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="8dp"
+
+                    android:layout_marginTop="52dp"
                     android:text="@string/name"
-                    android:layout_marginTop="16dp"
+                    android:textSize="18sp"
                     app:layout_constraintBaseline_toBaselineOf="@+id/editTextName"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/imageViewPlace" />
 
-
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/textViewCategoryLabel"
                     style="@style/BookmarkLabel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:text="@string/category"
                     app:layout_constraintBottom_toBottomOf="@+id/spinnerCategory"
                     app:layout_constraintEnd_toStartOf="@+id/barrier1"
-                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/spinnerCategory"
-                    app:layout_constraintVertical_bias="1.0" />
+                    app:layout_constraintVertical_bias="0.25" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/textViewNotes"
                     style="@style/BookmarkLabel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     android:inputType="textMultiLine"
                     android:text="@string/notes"
+                    android:layout_marginTop="10dp"
                     app:layout_constraintBaseline_toBaselineOf="@+id/editTextNotes"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textViewCategoryLabel"/>
@@ -99,22 +100,21 @@
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/textViewPhone"
                     style="@style/BookmarkLabel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     android:text="@string/phone"
                     app:layout_constraintBaseline_toBaselineOf="@+id/editTextPhone"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textViewNotes"/>
+
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/textViewAddress"
                     style="@style/BookmarkLabel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
                     android:text="@string/address"
                     app:layout_constraintBaseline_toBaselineOf="@+id/editTextAddress"
                     app:layout_constraintEnd_toStartOf="@+id/barrier1"
+                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textViewPhone"/>
+                    app:layout_constraintTop_toBottomOf="@+id/textViewPhone" />
 
                 <androidx.constraintlayout.widget.Barrier
                     android:id="@+id/barrier1"
@@ -125,47 +125,47 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/editTextName"
-                    android:text="@{DetailView.name}"
                     style="@style/BookmarkEditText"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/name"
-                    android:layout_marginTop="16dp"
                     android:layout_marginStart="16dp"
+                    android:layout_marginTop="32dp"
+                    android:hint="@string/name"
+                    android:text="@{DetailView.name}"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toEndOf="@+id/barrier1"
-                    app:layout_constraintTop_toBottomOf="@+id/imageViewPlace"/>
+                    app:layout_constraintTop_toBottomOf="@+id/imageViewPlace" />
 
                 <ImageView
                     android:id="@+id/imageViewCategory"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
+                    android:layout_marginStart="8dp"
                     android:src="@drawable/other"
-                    android:layout_marginStart="16dp"
                     app:layout_constraintBottom_toBottomOf="@+id/spinnerCategory"
                     app:layout_constraintStart_toEndOf="@+id/barrier1"
                     app:layout_constraintTop_toTopOf="@+id/spinnerCategory"
-                    />
+                    app:layout_constraintVertical_bias="1.0" />
 
                 <Spinner
                     android:id="@+id/spinnerCategory"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight='1.4'
-                    android:layout_marginTop="16dp"
                     android:layout_marginStart="8dp"
+                    android:layout_marginTop="16dp"
                     android:layout_marginEnd="8dp"
+                    android:layout_weight='1.4'
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toEndOf="@+id/imageViewCategory"
-                    app:layout_constraintTop_toBottomOf="@+id/editTextName"
-                    />
+                    app:layout_constraintTop_toBottomOf="@+id/editTextName" />
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/editTextNotes"
                     style="@style/BookmarkEditText"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
+                    android:layout_marginTop="36dp"
                     android:hint="@string/enter_notes"
                     android:text="@{DetailView.notes}"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -175,27 +175,30 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/editTextPhone"
-                    android:text="@{DetailView.phone}"
                     style="@style/BookmarkEditText"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/phone_number"
                     android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:hint="@string/phone_number"
+                    android:text="@{DetailView.phone}"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toEndOf="@+id/barrier1"
-                    app:layout_constraintTop_toBottomOf="@+id/editTextNotes"/>
+                    app:layout_constraintTop_toBottomOf="@+id/editTextNotes" />
+
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/editTextAddress"
-                    android:text="@{DetailView.address}"
                     style="@style/BookmarkEditText"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
                     android:hint="@string/address"
                     android:inputType="textMultiLine"
-                    android:layout_marginStart="16dp"
+                    android:text="@{DetailView.address}"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toEndOf="@+id/barrier1"
-                    app:layout_constraintTop_toBottomOf="@+id/editTextPhone"/>
+                    app:layout_constraintTop_toBottomOf="@+id/editTextPhone" />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>

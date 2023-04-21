@@ -127,8 +127,6 @@ object ImageUtils {
         } ?: return img
         return when (ei.getAttributeInt(ExifInterface.TAG_ORIENTATION,
             ExifInterface.ORIENTATION_NORMAL)) {
-            ExifInterface.ORIENTATION_NORMAL -> rotateImage(img,
-                180.0f)?: img
             ExifInterface.ORIENTATION_ROTATE_90 -> rotateImage(img,
                 90.0f) ?: img
             ExifInterface.ORIENTATION_ROTATE_180 -> rotateImage(img,

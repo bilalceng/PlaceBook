@@ -73,7 +73,8 @@ dependencies {
 
     implementation "androidx.lifecycle:lifecycle-viewmodel-compose:2.6.0"
     implementation "androidx.lifecycle:lifecycle-runtime:2.6.0"
-
+    //circular imageView
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
 
 
 
