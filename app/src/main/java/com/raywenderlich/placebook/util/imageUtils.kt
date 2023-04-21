@@ -170,6 +170,7 @@ object ImageUtils {
 
                     inputStream.close()
                     return bitmap
+                    println()
                 }
             }
             return null
