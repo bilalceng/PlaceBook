@@ -19,3 +19,5 @@ thanks to PLACEBOOK you can record this place with a note  and a  selfy ,and if 
 ![detail screen](https://github.com/bilalceng/PlaceBook/blob/master/detail_screen.png)
 
 ![place window](https://github.com/bilalceng/PlaceBook/blob/master/place_window.png)
+
+![serch bar feature](https://github.com/bilalceng/PlaceBook/blob/master/search_bar.png)
