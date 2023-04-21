@@ -208,6 +208,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         databinding.mainMapView.fab.setOnClickListener{
         searchAtCurrentLocation()
     }
+
+        mMap.setOnMapClickListener {
+            newBookmark(it)
+        }
     }
 
     private fun displayPoi(pointOfInterest: PointOfInterest){
@@ -421,6 +425,15 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
             }
 
+        }
+    }
+
+    private fun newBookmark(latlang: LatLng){
+        GlobalScope.launch {
+            val bookmarkId = mapsViewModel.addBookMark(latlang)
+            bookmarkId?.let{
+               startDetailActivity(it)
+            }
         }
     }
 

@@ -5,8 +5,14 @@
     tools:context="com.raywenderlich.placebook.ui.BookmarkDetailsActivity">
 
     <item
+        android:id="@+id/action_delete"
+        android:icon="@android:drawable/ic_menu_delete"
+        android:title="Delete"
+        app:showAsAction="ifRoom"/>
+
+    <item
         android:id="@+id/save"
         android:title="@string/save"
         android:icon="@drawable/done"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="ifRoom|withText" />
 </menu>
