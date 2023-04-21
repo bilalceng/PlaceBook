@@ -15,3 +15,5 @@ thanks to PLACEBOOK you can record this place with a note  and a  selfy ,and if 
 
 
 ![drawer screen](https://github.com/bilalceng/PlaceBook/blob/master/drawer_layout.png)
+
+![detail screen](https://github.com/bilalceng/PlaceBook/blob/master/detail_screen.png)
