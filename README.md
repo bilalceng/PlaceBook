@@ -8,6 +8,10 @@ thanks to PLACEBOOK you can record this place with a note  and a  selfy ,and if 
 
 
 
-<img src="https://github.com/bilalceng/PlaceBook/blob/master/drawer_layout.png" alt="Example screen" style="width:50%"; style="height:%50";>
 
-![drawer screen](https://github.com/bilalceng/PlaceBook/blob/master/drawer_layout.png){: style="width:50%;"}
+
+
+
+
+
+![drawer screen](https://github.com/bilalceng/PlaceBook/blob/master/drawer_layout.png)
