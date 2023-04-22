@@ -13,14 +13,18 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Button
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.FileProvider
 import androidx.databinding.DataBindingUtil
 import com.raywenderlich.placebook.R
 import com.raywenderlich.placebook.databinding.ActivityDetailBinding
 import com.raywenderlich.placebook.util.ImageUtils
 import com.raywenderlich.placebook.viewmodel.DetailViewModel
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import java.io.File
 
 
@@ -96,6 +100,8 @@ private fun saveChanges(){
             saveChanges()
             Toast.makeText(this, "changes recorded successfully.", Toast.LENGTH_SHORT).show()
             true
+        }else{
+            deleteBookmark()
         }
             return super.onOptionsItemSelected(item)
     }
@@ -284,6 +290,25 @@ private fun saveChanges(){
           }
         }
 
+    }
+
+    private fun deleteBookmark(){
+
+        val bookmarkView = detailView ?: return
+
+         AlertDialog.Builder(this)
+            .setMessage("Delete?")
+            .setPositiveButton("OK"){dialog,which ->
+                GlobalScope.launch {
+                    detailViewModel.deleteBookmark(bookmarkView)
+                }
+                Toast.makeText(this@DetailActivity, "bookmark deleted successfully", Toast.LENGTH_SHORT).show()
+                finish()
+
+            }.setNegativeButton("Cancel", ){_,_ ->
+                 Toast.makeText(this, "cannot deleted", Toast.LENGTH_SHORT).show()
+             }
+             .create().show()
     }
 
 

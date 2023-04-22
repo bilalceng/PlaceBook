@@ -6,7 +6,8 @@ import com.google.android.libraries.places.api.model.Place
 import com.raywenderlich.placebook.R
 import com.raywenderlich.placebook.db.PlaceBookDatabase
 import com.raywenderlich.placebook.model.Bookmark
-
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 
 class BookmarkRepo( var context: Context) {
@@ -78,7 +79,7 @@ class BookmarkRepo( var context: Context) {
         return Bookmark()
     }
 
-    fun getLiveBookmark(bookmarkId: Long): LiveData<Bookmark> {
+    fun getLiveBookmark(bookmarkId: Long): LiveData<Bookmark?> {
         return bookmarkDao.loadLiveBookmark(bookmarkId)
     }
 
@@ -97,4 +98,6 @@ class BookmarkRepo( var context: Context) {
         bookmark.deleteImage(context)
         bookmarkDao.deleteBookmark(bookmark)
     }
+
+
 }

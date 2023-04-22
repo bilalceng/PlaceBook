@@ -17,7 +17,7 @@ interface BookmarkDao {
     fun loadBookmark(bookmarkId: Long) : Bookmark
 
     @Query("SELECT * FROM Bookmark WHERE id = :bookmarkId")
-    fun loadLiveBookmark(bookmarkId: Long) : LiveData<Bookmark>
+    fun loadLiveBookmark(bookmarkId: Long) : LiveData<Bookmark?>
 
     @Insert(onConflict = IGNORE)
     fun insertBookmark(bookmark: Bookmark): Long

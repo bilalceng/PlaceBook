@@ -17,7 +17,7 @@ import kotlinx.coroutines.launch
 
 class DetailViewModel(application: Application):AndroidViewModel(application) {
     val bookmarkRepo = BookmarkRepo(getApplication())
-    var detailView: LiveData<DetailView>? = null
+    var detailView: LiveData<DetailView?>? = null
 
     data class DetailView(
         var id:Long? = null,
@@ -52,13 +52,17 @@ class DetailViewModel(application: Application):AndroidViewModel(application) {
 
 
     private fun mapBookmarkToDetailView(bookmarkId:Long){
-        detailView = bookmarkRepo.getLiveBookmark(bookmarkId).map {
-            bookmarkToDetailView(it)
+
+        val bookmark:LiveData<Bookmark?>? = bookmarkRepo.getLiveBookmark(bookmarkId)
+        detailView = bookmark?.map {repobookmark ->
+
+            Log.d("pornoo","$repobookmark")
+            repobookmark?.let { bookmarkToDetailView(repobookmark) }
         }
 
     }
 
-    fun getDetailView(bookmarkId:Long): LiveData<DetailView>? {
+    fun getDetailView(bookmarkId:Long): LiveData<DetailView?>? {
         if (detailView == null) {
             mapBookmarkToDetailView(bookmarkId)
         }
@@ -100,5 +104,23 @@ class DetailViewModel(application: Application):AndroidViewModel(application) {
     fun getCategories():List<String>{
         return bookmarkRepo.categories
     }
-    }
+
+    fun deleteBookmark(detailView: DetailView) {
+        GlobalScope.launch {
+            var bookmark = detailView.id?.let {
+                bookmarkRepo.getBookmark(it)
+            }
+
+            bookmark?.let {
+                bookmarkRepo.deleteBookmark(it)
+            }
+        }
+
+
+      }
+
+
+
+}
+
 
