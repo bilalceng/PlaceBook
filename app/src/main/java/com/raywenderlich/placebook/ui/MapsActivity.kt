@@ -12,15 +12,12 @@ import android.location.Location
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.WindowManager
+import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
-import androidx.appcompat.graphics.drawable.DrawerArrowDrawable
 import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
-import androidx.core.view.GravityCompat
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.ViewModel
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException
 import com.google.android.gms.common.GooglePlayServicesRepairableException
 import com.google.android.gms.common.api.ApiException
@@ -32,6 +29,7 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
+
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.maps.model.PointOfInterest
 import com.google.android.libraries.places.api.model.Place
@@ -44,7 +42,6 @@ import com.raywenderlich.placebook.R
 import com.raywenderlich.placebook.adapter.BookMarkInfoWindowAdaptor
 import com.raywenderlich.placebook.adapter.BookmarkListAdapter
 import com.raywenderlich.placebook.databinding.ActivityMapsBinding
-import com.raywenderlich.placebook.repository.BookmarkRepo
 import com.raywenderlich.placebook.viewmodel.MapsViewModel
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -215,10 +212,12 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     private fun displayPoi(pointOfInterest: PointOfInterest){
+        showProgress()
         displayPoiGetPoiStep(pointOfInterest)
     }
 
    private fun displayPoiDisplayStep(place: Place, photo: Bitmap?){
+       hideProgress()
        /*
         val iconPhoto = if(photo == null){
             BitmapDescriptorFactory.defaultMarker()
@@ -265,6 +264,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                     val statusCode = exception.statusCode
 
                     Log.e(TAG,"place not found".plus(exception.message) + statusCode)
+                    hideProgress()
                 }
             }
     }
@@ -296,6 +296,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                     val statusCode = exception.statusCode
 
                     Log.e(TAG,"place not found".plus(exception.message) + statusCode)
+                    hideProgress()
                 }
             }
     }
@@ -421,6 +422,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                 location.longitude = place.latLng?.longitude ?: 0.0
 
                 updateMaplocation(location)
+                showProgress()
                 displayPoiGetPhotoStep(place)
 
             }
@@ -435,6 +437,25 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                startDetailActivity(it)
             }
         }
+    }
+
+    private fun disableUserInteraction() {
+        window.setFlags(
+            WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+            WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+    }
+    private fun enableUserInteraction() {
+        window.clearFlags(
+            WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+    }
+
+    private fun showProgress() {
+        databinding.mainMapView.progressBar.visibility = ProgressBar.VISIBLE
+        disableUserInteraction()
+    }
+    private fun hideProgress() {
+        databinding.mainMapView.progressBar.visibility = ProgressBar.GONE
+        enableUserInteraction()
     }
 
     companion object{

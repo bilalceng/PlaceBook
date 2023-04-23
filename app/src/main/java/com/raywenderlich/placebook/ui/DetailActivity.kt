@@ -13,32 +13,32 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.Button
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.FileProvider
 import androidx.databinding.DataBindingUtil
 import com.raywenderlich.placebook.R
-import com.raywenderlich.placebook.databinding.ActivityDetailBinding
 import com.raywenderlich.placebook.util.ImageUtils
 import com.raywenderlich.placebook.viewmodel.DetailViewModel
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.io.File
+import com.raywenderlich.placebook.databinding.ActivityDetailBinding
+import java.net.URLEncoder
 
 
 class DetailActivity : AppCompatActivity() , PhotoOptionDialogFragment.PhotoOptionDialogListener{
     private var photoFile: File?  = null
     private val detailViewModel by  viewModels<DetailViewModel>()
     private var detailView: DetailViewModel.DetailView? = null
-    private lateinit var dataBinding: ActivityDetailBinding
+    private lateinit var dataBinding:ActivityDetailBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         dataBinding = DataBindingUtil.setContentView(this,R.layout.activity_detail)
        setupToolbar()
-
         getIntentData()
+        shareTriggerButton()
     }
 
     private fun setupToolbar(){
@@ -314,6 +314,46 @@ private fun saveChanges(){
 
 
     }
+
+    private fun sharePlace() {
+
+        val bookmarkView = detailView ?: return
+
+        var mapUrl = ""
+        if (bookmarkView.placeId == null) {
+
+            val location = URLEncoder.encode("${bookmarkView.latitude},"
+                    + "${bookmarkView.longitude}", "utf-8")
+            mapUrl = "https://www.google.com/maps/dir/?api=1" +
+                    "&destination=$location"
+        } else {
+
+            val name = URLEncoder.encode(bookmarkView.name, "utf-8")
+            mapUrl = "https://www.google.com/maps/dir/?api=1" +
+                    "&destination=$name&destination_place_id=" +
+                    "${bookmarkView.placeId}"
+        }
+
+
+        val sendIntent = Intent()
+        sendIntent.action = Intent.ACTION_SEND
+
+        sendIntent.putExtra(Intent.EXTRA_TEXT,
+            "Check out ${bookmarkView.name} at:\n$mapUrl")
+        sendIntent.putExtra(Intent.EXTRA_SUBJECT,
+            "Sharing ${bookmarkView.name}")
+
+        sendIntent.type = "text/plain"
+
+        startActivity(sendIntent)
+    }
+
+    private fun shareTriggerButton(){
+        dataBinding.fab.setOnClickListener {
+            sharePlace()
+        }
+    }
+
 
 
     companion object {

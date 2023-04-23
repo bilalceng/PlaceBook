@@ -13,4 +13,6 @@
     <string name="open_drawer">Open Drawer</string>
     <string name="close_drawer">Close Drawer</string>
     <string name="category">Category</string>
+    <string name="share">share</string>
+    <string name="todo">TODO</string>
 </resources>

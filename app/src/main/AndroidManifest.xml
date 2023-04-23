@@ -20,7 +20,7 @@
 
             android:name="com.raywenderlich.placebook.ui.DetailActivity"
             android:label="Bookmark"
-            android:theme="@style/AppTheme.NoActionBar"
+            android:theme="@style/Theme.PlaceBook"
             android:windowSoftInputMode="stateHidden">
 
             <meta-data
@@ -45,7 +45,7 @@
         <activity
             android:name=".ui.MapsActivity"
             android:exported="true"
-            android:theme="@style/AppTheme.NoActionBar"
+            android:theme="@style/Theme.PlaceBook"
             android:label="@string/title_activity_maps">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

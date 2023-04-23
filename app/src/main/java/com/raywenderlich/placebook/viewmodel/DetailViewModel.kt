@@ -19,13 +19,15 @@ class DetailViewModel(application: Application):AndroidViewModel(application) {
     val bookmarkRepo = BookmarkRepo(getApplication())
     var detailView: LiveData<DetailView?>? = null
 
-    data class DetailView(
-        var id:Long? = null,
-        var name:String ="",
-        var phone:String ="",
-        var address: String="",
-        var notes:String="",
-        var category: String = ""
+    data class DetailView(var id: Long? = null,
+                                   var name: String = "",
+                                   var phone: String = "",
+                                   var address: String = "",
+                                   var notes: String = "",
+                                   var category: String = "",
+                                   var longitude: Double = 0.0,
+                                   var latitude: Double = 0.0,
+                                   var placeId: String? = null
     ){
         fun getImage(context: Context) = id?.let {
             ImageUtils.loadBitmapFromFile(context,Bookmark.generateImageFileName(it))
@@ -41,13 +43,16 @@ class DetailViewModel(application: Application):AndroidViewModel(application) {
     }
 
     fun bookmarkToDetailView(bookmark: Bookmark) =
-        DetailView(
+         DetailView(
             bookmark.id,
             bookmark.name,
             bookmark.phone,
             bookmark.address,
             bookmark.notes,
-            bookmark.category
+            bookmark.category,
+            bookmark.longitude,
+            bookmark.latitude,
+            bookmark.placeId
         )
 
 

@@ -40,7 +40,7 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:maxLines="1"
-            android:textColor="@color/black"
+            android:textColor="#030010"
             android:textSize="12sp"
             tools:text="555-121-1212"/>
     </LinearLayout>
